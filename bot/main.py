@@ -8,7 +8,7 @@ from Detection import Detection
 from bot import LeagueBot, BotState
 
 # Global variables
-debug = False    
+debug = True    
 is_bot_in_action = False
 
 # Initialize the Window Capture Class
@@ -19,7 +19,7 @@ bot = LeagueBot((wincap.offset_x, wincap.offset_y), (wincap.w, wincap.h))
 
 wincap.start()
 detector.start()
-bot.start()
+#bot.start()
 
 loop_time = time()
 # Main Loop

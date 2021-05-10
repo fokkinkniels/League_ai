@@ -1,9 +1,9 @@
 import cv2 as cv
-import pyautogui #pydirect input if it doesnt work
+import pyautogui
 from time import sleep, time
 from threading import Thread, Lock
-from math import sqrt, trunc
-from PIL import Image
+from math import sqrt
+
 
 class BotState:
     INITIALIZING = 0
@@ -17,7 +17,7 @@ class LeagueBot:
     # Constants
     INITIALIZING_SECONDS = 2
     MOVEMENT_STOPPED_THRESHOLD = [0.92, 1]
-    INFO_THRESHOLD = 0.445
+    INFO_THRESHOLD = 0.7
     ATTACK_SPEED = 1.5
     WINDOW_OFFSET = None
     WINDOW_SIZE = None
@@ -43,7 +43,7 @@ class LeagueBot:
         self.WINDOW_OFFSET = window_offset
         self.WINDOW_SIZE = window_size
 
-        self.caster_info = cv.imread(r'C:\Users\fokki\Documents\NIELS\SCHOOL\ICT S4\Challenges\Genuine Challenges\League of legends Bot\Workspace\custom_classifiers\img\caster_info_new.png')
+        self.caster_info = cv.imread(r'img\caster_info_new.png')
 
         self.state = BotState.INITIALIZING
         self.timestamp = time()
@@ -70,9 +70,20 @@ class LeagueBot:
     
     def confirm_minion(self):
      
-        result = cv.matchTemplate(self.caster_info, self.screenshot, cv.TM_CCOEFF_NORMED)
-        min_val, max_val, min_loc, max_loc = cv.minMaxLoc(result)
+        result1 = cv.matchTemplate(self.caster_info, self.screenshot, cv.TM_CCOEFF_NORMED)
+        result2 = cv.matchTemplate(self.caster_info, self.screenshot, cv.TM_CCOEFF_NORMED)
+        result3 = cv.matchTemplate(self.caster_info, self.screenshot, cv.TM_CCOEFF_NORMED)
+        result4 = cv.matchTemplate(self.caster_info, self.screenshot, cv.TM_CCOEFF_NORMED)
 
+        min_val, max_val1, min_loc, max_loc = cv.minMaxLoc(result1)
+        min_val, max_val2, min_loc, max_loc = cv.minMaxLoc(result2)
+        min_val, max_val3, min_loc, max_loc = cv.minMaxLoc(result3)
+        min_val, max_val4, min_loc, max_loc = cv.minMaxLoc(result4)
+
+        max_vals = [max_val1, max_val2, max_val3, max_val4]
+        max_val = max(max_vals)
+
+        print(max_vals)
         print(max_val)
 
         if max_val >= self.INFO_THRESHOLD:
